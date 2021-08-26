@@ -93,9 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
               // horizontal).
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SourceCurrencyWidget(),
+            SourceCurrencyWidget(),
             TargetCurrencyWidget(),
-              ])),
+          ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -116,7 +116,7 @@ class SourceCurrencyWidget extends StatelessWidget {
         child: Column(children: [
       Padding(
         padding: const EdgeInsets.all(10.0),
-      child: Column(
+        child: Column(
           children: [
             Row(children: [
               Text("\$ AUD"),
@@ -124,8 +124,8 @@ class SourceCurrencyWidget extends StatelessWidget {
               Text("Australian dollar >"),
             ]),
           ],
-              ),
-              ),
+        ),
+      ),
       Padding(padding: const EdgeInsets.all(10.0), child: TextField()),
     ]));
   }
@@ -144,7 +144,7 @@ class TargetCurrencyWidget extends StatelessWidget {
         children: [
           Text("\$62.67"),
           Spacer(),
-            ],
+        ],
       )),
       Padding(
         padding: const EdgeInsets.all(10.0),
@@ -155,8 +155,8 @@ class TargetCurrencyWidget extends StatelessWidget {
               Spacer(),
               Text("Euro >"),
             ]),
-        ],
-      ),
+          ],
+        ),
       ),
     ]));
   }
