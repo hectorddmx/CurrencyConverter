@@ -19,5 +19,5 @@ echo "EXCHANGERATESAPI_KEY='xxx'" >> 'test/.env'
 
 ## Notes
 [[Installing flutter]]
-[[Resources]]
+[[Notes]]
 [[Notes]]

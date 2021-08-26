@@ -1,6 +1,6 @@
 # Notes
 For [[Installing flutter]]
-For [[Resources]]
+For [[Notes]]
 
 ## Getting Started  
   
@@ -48,3 +48,9 @@ I would require some things to get this layout going:
 ### Protecting it from reverse engineering
 - https://stackoverflow.com/questions/64527430/how-to-protect-flutter-app-from-reverse-engineering/64543495#64543495
 - https://stackoverflow.com/questions/61894868/securely-saving-api-keys-in-android-flutter-apps/61933765#61933765
+
+
+## State management
+- https://flutter.dev/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app
+- [Flutter | Simple app state management](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple)
+- [Remove noise from Debugger](https://newbedev.com/flutter-disable-system-debug-messages-in-run-tab)
