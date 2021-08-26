@@ -42,14 +42,14 @@ class ConvertResponse {
       );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "query": query?.toJson(),
-    "info": info?.toJson(),
-    "date":
-    "${date?.year.toString().padLeft(4, '0')}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}",
-    "result": result,
-    // "error": error?.toJson(),
-  };
+        "success": success,
+        "query": query?.toJson(),
+        "info": info?.toJson(),
+        "date":
+            "${date?.year.toString().padLeft(4, '0')}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}",
+        "result": result,
+        // "error": error?.toJson(),
+      };
 }
 
 class Info {
@@ -62,14 +62,14 @@ class Info {
   double? rate;
 
   factory Info.fromJson(Map<String, dynamic> json) => Info(
-    timestamp: json["timestamp"],
-    rate: json["rate"].toDouble(),
-  );
+        timestamp: json["timestamp"],
+        rate: json["rate"].toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "timestamp": timestamp,
-    "rate": rate,
-  };
+        "timestamp": timestamp,
+        "rate": rate,
+      };
 }
 
 class Query {
@@ -84,16 +84,16 @@ class Query {
   int? amount;
 
   factory Query.fromJson(Map<String, dynamic> json) => Query(
-    from: json["from"],
-    to: json["to"],
-    amount: json["amount"],
-  );
+        from: json["from"],
+        to: json["to"],
+        amount: json["amount"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "from": from,
-    "to": to,
-    "amount": amount,
-  };
+        "from": from,
+        "to": to,
+        "amount": amount,
+      };
 }
 
 class CurrencyResponseError {
@@ -112,7 +112,7 @@ class CurrencyResponseError {
       );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-  };
+        "code": code,
+        "message": message,
+      };
 }
