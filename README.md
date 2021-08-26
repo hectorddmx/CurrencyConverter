@@ -1,2 +1,1 @@
-# CurrencyConverter
-Code Challenge
+./docs/Readme.md
