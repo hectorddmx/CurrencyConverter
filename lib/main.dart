@@ -112,27 +112,23 @@ class SourceCurrencyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        child: Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(10.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const ListTile(
-            leading: Icon(Icons.album),
-            title: Text('Upper card'),
-            subtitle: Text('Description.'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () {/* ... */},
+          children: [
+            Row(children: [
+              Text("\$ AUD"),
+              Spacer(),
+              Text("Australian dollar >"),
+            ]),
+          ],
               ),
-              const SizedBox(width: 8),
-              TextButton(
-                child: const Text('LISTEN'),
-                onPressed: () {/* ... */},
               ),
-              const SizedBox(width: 8),
+      Padding(padding: const EdgeInsets.all(10.0), child: TextField()),
+    ]));
+  }
+}
             ],
           ),
         ],
