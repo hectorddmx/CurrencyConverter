@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:money2/money2.dart';
+import 'package:currency_converter/Constants/style_constants.dart';
 
 enum CurrencyWidgetType { edit, display }
 
@@ -42,39 +43,36 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const _labelsTextStyle = TextStyle(
-        color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
-    const _quantityTextStyle = TextStyle(
-        color: Colors.purple, fontSize: 40, fontWeight: FontWeight.w300);
-
-    var dropDownButton = buildDropdownButton(_labelsTextStyle);
 
     Padding currencyTypeRow =
-        buildCurrencyTypeRow(_labelsTextStyle, dropDownButton);
+        buildCurrencyTypeRow(labelsTextStyle, this.currencyWidgetType);
     Padding currencyRow =
-        buildCurrencyRow(_quantityTextStyle, this.currencyWidgetType);
+        buildCurrencyRow(quantityTextStyle, this.currencyWidgetType);
 
     Card editableCurrencyCard =
         buildCurrencyCard(currencyTypeRow, currencyRow, currencyWidgetType);
 
     return Padding(
-      padding: const EdgeInsets.all(18.0),
+      padding: const EdgeInsets.fromLTRB(18, 6, 18, 6),
       child: editableCurrencyCard,
     );
   }
 
   Card buildCurrencyCard(Padding currencyRow, Padding quantityRow,
       CurrencyWidgetType currencyWidgetType) {
-    var _verticalDirection = currencyWidgetType == CurrencyWidgetType.edit
-        ? VerticalDirection.down
-        : VerticalDirection.up;
+    VerticalDirection _verticalDirection;
+    if (currencyWidgetType == CurrencyWidgetType.edit) {
+      _verticalDirection = VerticalDirection.down;
+    } else {
+      _verticalDirection = VerticalDirection.up;
+    }
     var editableCurrencyCard = Card(
         elevation: 8,
         shadowColor: Colors.white,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
           child: Column(
             children: [
               currencyRow,
@@ -87,7 +85,7 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
   }
 
   Padding buildCurrencyRow(
-      TextStyle _quantityTextStyle, CurrencyWidgetType currencyWidgetType) {
+      TextStyle quantityTextStyle, CurrencyWidgetType currencyWidgetType) {
     Widget label;
     switch (currencyWidgetType) {
       case CurrencyWidgetType.edit:
@@ -95,8 +93,8 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
           label = TextField(
             keyboardType: TextInputType.number,
             controller: controller,
-            decoration: InputDecoration(border: InputBorder.none),
-            style: _quantityTextStyle,
+            decoration: InputDecoration(border: InputBorder.none, fillColor: Colors.red),
+            style: quantityTextStyle,
             onChanged: (text) {
               print('First text field: $text');
             },
@@ -106,61 +104,60 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
       case CurrencyWidgetType.display:
         {
           label = Row(
-            children: [Text("\$62.67", style: _quantityTextStyle), Spacer()],
+            children: [Text("\$62.67", style: quantityTextStyle), Spacer()],
           );
         }
         break;
     }
-    return Padding(padding: const EdgeInsets.all(10.0), child: label);
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+        child: label
+    );
   }
 
   Padding buildCurrencyTypeRow(
-      TextStyle _labelsTextStyle, DropdownButton<String> dropDownButton) {
+      TextStyle labelsTextStyle, CurrencyWidgetType currencyWidgetType) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Column(
         children: [
           Row(children: [
-            Text("\$ $codeValue", style: _labelsTextStyle),
+            Text("\$ $codeValue", style: labelsTextStyle),
             Spacer(),
             DropdownButtonHideUnderline(
-              child: dropDownButton,
+              child: DropdownButton<String>(
+                value: currencyNameValue,
+                icon: RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 16,
+                      ),
+                      onPressed: null,
+                    )),
+                iconSize: 24,
+                style: labelsTextStyle,
+                underline: null,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    currencyNameValue = newValue!;
+                    codeValue = currencyNameValue;
+                  });
+                },
+                //TODO: Fetch this from symbols API
+                items: <String>['Euro', 'Peso', 'Dollar']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: labelsTextStyle),
+                  );
+                }).toList(),
+              ),
             )
           ]),
         ],
       ),
-    );
-  }
-
-  DropdownButton<String> buildDropdownButton(TextStyle _labelsTextStyle) {
-    return DropdownButton<String>(
-      value: currencyNameValue,
-      icon: RotatedBox(
-          quarterTurns: 3,
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-              size: 16,
-            ),
-            onPressed: null,
-          )),
-      iconSize: 24,
-      style: _labelsTextStyle,
-      underline: null,
-      onChanged: (String? newValue) {
-        setState(() {
-          currencyNameValue = newValue!;
-          codeValue = currencyNameValue;
-        });
-      },
-      //TODO: Fetch this from symbols API
-      items: <String>['Euro', 'Peso', 'Dollar']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value, style: _labelsTextStyle),
-        );
-      }).toList(),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:currency_converter/views/currency_widget.dart';
+import 'package:currency_converter/models/convert_response.dart';
+import 'package:currency_converter/requests/convert_request.dart';
+import 'package:currency_converter/models/symbols_response.dart';
+import 'package:currency_converter/requests/symbols_request.dart';
 
 Future main() async {
   await fetchSecrets();
@@ -14,8 +17,21 @@ Future<void> fetchSecrets() async {
   // print("apiKey: $apiKey");
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<SymbolsResponse> futureSymbols;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSymbols = fetchSymbols();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,17 +67,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.tealAccent,
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.deepPurpleAccent,
         elevation: 0,
       ),
       body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            CurrencyWidget(currencyWidgetType: CurrencyWidgetType.edit),
-            CurrencyWidget(currencyWidgetType: CurrencyWidgetType.display),
-          ])),
+          child: Container(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CurrencyWidget(currencyWidgetType: CurrencyWidgetType.edit),
+              CurrencyWidget(currencyWidgetType: CurrencyWidgetType.display),
+            ]),
+      )),
     );
   }
 }
