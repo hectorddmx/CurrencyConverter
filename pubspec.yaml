@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  flutter_masked_text: ^0.7.0
   flutter:
     sdk: flutter
 

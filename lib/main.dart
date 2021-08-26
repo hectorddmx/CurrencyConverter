@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 void main() {
   runApp(MyApp());
@@ -96,68 +97,141 @@ class _MyHomePageState extends State<MyHomePage> {
             SourceCurrencyWidget(),
             TargetCurrencyWidget(),
           ])),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-class SourceCurrencyWidget extends StatelessWidget {
+class SourceCurrencyWidget extends StatefulWidget {
   const SourceCurrencyWidget({
     Key? key,
   }) : super(key: key);
 
   @override
+  _SourceCurrencyWidgetState createState() => _SourceCurrencyWidgetState();
+}
+
+class _SourceCurrencyWidgetState extends State<SourceCurrencyWidget> {
+  double currencyValue = 0.0;
+  String currencyNameValue = 'Peso';
+  String codeValue = 'Peso';
+  var controller = new MoneyMaskedTextController(
+      initialValue: 0.0,
+      leftSymbol: "\$",
+      decimalSeparator: ".",
+      thousandSeparator: ",");
+
+  @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Card(
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
         child: Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(children: [
-              Text("\$ AUD"),
-              Spacer(),
-              Text("Australian dollar >"),
-            ]),
-          ],
-        ),
-      ),
-      Padding(padding: const EdgeInsets.all(10.0), child: TextField()),
-    ]));
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Row(children: [
+                  Text("\$ $codeValue"),
+                  Spacer(),
+                  DropdownButton<String>(
+                    value: currencyNameValue,
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
+                    iconSize: 24,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        currencyNameValue = newValue!;
+                        codeValue = currencyNameValue;
+                      });
+                    },
+                    items: <String>['Euro', 'Peso', 'Dollar']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+                ]),
+              ],
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: controller,
+                decoration: InputDecoration(border: InputBorder.none),
+                style: TextStyle(color: Colors.purple),
+              )),
+        ]),
+      )),
+    );
   }
 }
 
-class TargetCurrencyWidget extends StatelessWidget {
+class TargetCurrencyWidget extends StatefulWidget {
   const TargetCurrencyWidget({
     Key? key,
   }) : super(key: key);
 
   @override
+  _TargetCurrencyWidgetState createState() => _TargetCurrencyWidgetState();
+}
+
+class _TargetCurrencyWidgetState extends State<TargetCurrencyWidget> {
+  String currencyNameValue = 'Peso';
+  String codeValue = 'Peso';
+  double currencyValue = 0.0;
+
+  @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Card(
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
         child: Column(children: [
-      Padding(padding: const EdgeInsets.all(10.0), child: Row(
-        children: [
-          Text("\$62.67"),
-          Spacer(),
-        ],
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Text("\$62.67", style: TextStyle(color: Colors.purple)),
+                  Spacer(),
+                ],
+              )),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Row(children: [
+                  Text("\$ $codeValue"),
+                  Spacer(),
+                  DropdownButton<String>(
+                    value: currencyNameValue,
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
+                    iconSize: 24,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        currencyNameValue = newValue!;
+                        codeValue = currencyNameValue;
+                      });
+                    },
+                    items: <String>['Euro', 'Peso', 'Dollar']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+                ]),
+              ],
+            ),
+          ),
+        ]),
       )),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(children: [
-              Text("\$ EUR"),
-              Spacer(),
-              Text("Euro >"),
-            ]),
-          ],
-        ),
-      ),
-    ]));
+    );
   }
 }
