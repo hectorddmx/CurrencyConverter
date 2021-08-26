@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import "package:flutter_masked_text/flutter_masked_text.dart"
+    show MoneyMaskedTextController;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 

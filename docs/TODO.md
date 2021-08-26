@@ -6,5 +6,7 @@
 - [x]   Check how to create widgets with state
 - [ ]   Call API's
 	- [ ]   GET [[API/Symbols]]  for available currency types
+		- [x]   Parse symbols response
 	- [ ]   GET [[API/Convert]] to convert from one currency to another
+		- [x]   Parse convert response
 - [ ]  Check how to manage state
