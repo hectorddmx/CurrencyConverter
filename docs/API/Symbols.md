@@ -1,6 +1,7 @@
 https://api.exchangeratesapi.io/v1/symbols
 
 To fetch symbols.
+https://exchangeratesapi.io/documentation/
 
 Mainly I'm interested in the symbols dictionary:
 - key:  ISO 4217 codes for currency

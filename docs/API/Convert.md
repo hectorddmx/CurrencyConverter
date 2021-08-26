@@ -1,6 +1,7 @@
 https://api.exchangeratesapi.io/v1/convert
 
 Requires paid exchangeratesapi.io account 
+https://exchangeratesapi.io/documentation/
 
 To convert currency.
 ```shell
