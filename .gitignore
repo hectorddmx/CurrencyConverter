@@ -68,3 +68,6 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# Ignore https://obsidian.md/ config folder
+.obsidian
