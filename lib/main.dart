@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SourceCurrencyWidget(),
+            TargetCurrencyWidget(),
               ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -129,10 +130,34 @@ class SourceCurrencyWidget extends StatelessWidget {
     ]));
   }
 }
+
+class TargetCurrencyWidget extends StatelessWidget {
+  const TargetCurrencyWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(children: [
+      Padding(padding: const EdgeInsets.all(10.0), child: Row(
+        children: [
+          Text("\$62.67"),
+          Spacer(),
             ],
-          ),
+      )),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Row(children: [
+              Text("\$ EUR"),
+              Spacer(),
+              Text("Euro >"),
+            ]),
         ],
       ),
-    );
+      ),
+    ]));
   }
 }
