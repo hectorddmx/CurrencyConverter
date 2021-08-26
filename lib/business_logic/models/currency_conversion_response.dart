@@ -7,14 +7,14 @@ import 'dart:convert';
 //
 //     final convertResponse = convertResponseFromJson(jsonString);
 
-ConvertResponse convertResponseFromJson(String str) =>
-    ConvertResponse.fromJson(json.decode(str));
+CurrencyConversionResponse convertResponseFromJson(String str) =>
+    CurrencyConversionResponse.fromJson(json.decode(str));
 
-String convertResponseToJson(ConvertResponse data) =>
+String convertResponseToJson(CurrencyConversionResponse data) =>
     json.encode(data.toJson());
 
-class ConvertResponse {
-  ConvertResponse({
+class CurrencyConversionResponse {
+  CurrencyConversionResponse({
     this.success,
     this.query,
     this.info,
@@ -31,8 +31,8 @@ class ConvertResponse {
 
   // CurrencyResponseError? error;
 
-  factory ConvertResponse.fromJson(Map<String, dynamic> json) =>
-      ConvertResponse(
+  factory CurrencyConversionResponse.fromJson(Map<String, dynamic> json) =>
+      CurrencyConversionResponse(
         success: json["success"],
         query: Query.fromJson(json["query"]),
         info: Info.fromJson(json["info"]),

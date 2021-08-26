@@ -6,8 +6,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'dart:convert';
-import 'package:currency_converter/models/convert_response.dart';
-import 'package:currency_converter/models/symbols_response.dart';
+import 'package:currency_converter/business_logic/models/currency_conversion_response.dart';
+import 'package:currency_converter/business_logic/models/symbols_response.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +31,7 @@ void main() {
 
     final convertResponse = convertResponseFromJson(s);
     print(convertResponse);
-    expect(convertResponse, TypeMatcher<ConvertResponse>());
+    expect(convertResponse, TypeMatcher<CurrencyConversionResponse>());
     var oneLinerJsonResponse = jsonEncode(convertResponse);
     print(oneLinerJsonResponse);
     expect(

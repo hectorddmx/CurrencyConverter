@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:currency_converter/models/convert_response.dart';
-import 'package:currency_converter/requests/convert_request.dart';
-import 'package:currency_converter/models/symbols_response.dart';
-import 'package:currency_converter/requests/symbols_request.dart';
+
+import 'package:currency_converter/business_logic/models/currency_conversion_response.dart';
+import 'package:currency_converter/business_logic/models/symbols_response.dart';
+
+import 'package:currency_converter/services/web_api/currency_conversion_request.dart';
+import 'package:currency_converter/services/web_api/symbols_request.dart';
+
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'dart:io';
 
@@ -31,8 +34,8 @@ void main() {
       'Should be able to call web request for currency conversion and parse '
       'the result, if this breaks probably you may be missing the test/.env'
       ' file referenced here', () async {
-    final conversionResponse = await fetchConversion("MXN", "USD", 40);
-    expect(conversionResponse, TypeMatcher<ConvertResponse>());
+    final conversionResponse = await fetchCurrencyConversion("MXN", "USD", 40);
+    expect(conversionResponse, TypeMatcher<CurrencyConversionResponse>());
     var jsonResponse = convertResponseToJson(conversionResponse);
     print(jsonResponse);
     expect(jsonResponse, isNotEmpty);

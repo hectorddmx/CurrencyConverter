@@ -26,9 +26,10 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
   double currencyValue = 0.0;
   String currencyNameValue = 'Peso';
   String codeValue = 'Peso';
+  String currencySymbol = '\$';
   var controller = new MoneyMaskedTextController(
       initialValue: 0.0,
-      leftSymbol: "\$",
+      leftSymbol: '\$', // TODO: Check how to initialize this dynamically, is there something like lazy in dart?
       precision: 2,
       decimalSeparator: ".",
       thousandSeparator: ",");
@@ -43,14 +44,13 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     Padding currencyTypeRow =
-        buildCurrencyTypeRow(labelsTextStyle, this.currencyWidgetType);
+    buildCurrencyTypeRow(labelsTextStyle, this.currencyWidgetType);
     Padding currencyRow =
-        buildCurrencyRow(quantityTextStyle, this.currencyWidgetType);
+    buildCurrencyRow(quantityTextStyle, this.currencyWidgetType);
 
     Card editableCurrencyCard =
-        buildCurrencyCard(currencyTypeRow, currencyRow, currencyWidgetType);
+    buildCurrencyCard(currencyTypeRow, currencyRow, currencyWidgetType);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 6, 18, 6),
@@ -70,7 +70,7 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
         elevation: 8,
         shadowColor: Colors.white,
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
           child: Column(
@@ -84,8 +84,8 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
     return editableCurrencyCard;
   }
 
-  Padding buildCurrencyRow(
-      TextStyle quantityTextStyle, CurrencyWidgetType currencyWidgetType) {
+  Padding buildCurrencyRow(TextStyle quantityTextStyle,
+      CurrencyWidgetType currencyWidgetType) {
     Widget label;
     switch (currencyWidgetType) {
       case CurrencyWidgetType.edit:
@@ -93,18 +93,25 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
           label = TextField(
             keyboardType: TextInputType.number,
             controller: controller,
-            decoration: InputDecoration(border: InputBorder.none, fillColor: Colors.red),
+            decoration: InputDecoration(
+                border: InputBorder.none, fillColor: Colors.red),
             style: quantityTextStyle,
-            onChanged: (text) {
-              print('First text field: $text');
+            onChanged: (String value) async {
+              print('First text field: $value');
+              Currency currentCurrency = Currency.create('USD', 2);
+              Money parsed = currentCurrency.parse(value);
+              print(parsed.format('SCCC 0.0'));
             },
           );
         }
         break;
       case CurrencyWidgetType.display:
         {
+          Currency currentCurrency = Currency.create('USD', 2);
+          Money costPrice = Money.fromInt(0, currentCurrency);
+          var value = "$costPrice";
           label = Row(
-            children: [Text("\$62.67", style: quantityTextStyle), Spacer()],
+            children: [Text(value, style: quantityTextStyle), Spacer()],
           );
         }
         break;
@@ -115,8 +122,8 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
     );
   }
 
-  Padding buildCurrencyTypeRow(
-      TextStyle labelsTextStyle, CurrencyWidgetType currencyWidgetType) {
+  Padding buildCurrencyTypeRow(TextStyle labelsTextStyle,
+      CurrencyWidgetType currencyWidgetType) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Column(
@@ -161,3 +168,6 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
     );
   }
 }
+
+
+

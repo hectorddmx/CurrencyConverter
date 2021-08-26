@@ -31,6 +31,8 @@ dependencies:
   intl: ^0.17.0
   flutter_dotenv: ^5.0.2
   extended_masked_text: ^2.3.1
+  get_it: ^7.2.0
+  shared_preferences: ^2.0.7
 
 dev_dependencies:
   flutter_test:

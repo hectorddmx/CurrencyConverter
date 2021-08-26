@@ -16,7 +16,8 @@ Your submission will be expected to build into an executable app for iOS, Androi
 
 
 ## Design guidelines
-- [ ] Use the JSON API from [http://openrates.io/](http://exchangeratesapi.io/) to pull up-to-date exchange rate data for performing the conversion calculation.
+
+- [x] Use the JSON API from [http://openrates.io/](http://exchangeratesapi.io/) to pull up-to-date exchange rate data for performing the conversion calculation.
 - [ ] Show a drop down menu for selecting a primary currency, and another drop down menu for selecting a secondary currency.
 - [x] Perform validation on keyboard input so only numbers can be entered, and reject dashes, characters, symbols, etc.
 - [ ] Bonus points for providing a  button to swap the position of the starting and exchange currencies, and recomputing the conversion (as seen below).

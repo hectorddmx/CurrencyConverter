@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:currency_converter/views/currency_widget.dart';
-import 'package:currency_converter/models/convert_response.dart';
-import 'package:currency_converter/requests/convert_request.dart';
-import 'package:currency_converter/models/symbols_response.dart';
-import 'package:currency_converter/requests/symbols_request.dart';
+
+import 'package:currency_converter/ui/views/currency_widget.dart';
+
+import 'package:currency_converter/business_logic/models/currency_conversion_response.dart';
+import 'package:currency_converter/business_logic/models/symbols_response.dart';
+
+import 'package:currency_converter/services/web_api/symbols_request.dart';
+import 'package:currency_converter/services/web_api/currency_conversion_request.dart';
+
 
 Future main() async {
   await fetchSecrets();
@@ -24,14 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<SymbolsResponse> futureSymbols;
-
-  @override
-  void initState() {
-    super.initState();
-    futureSymbols = fetchSymbols();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,6 +52,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double _currencyValue = 0.0;
   double _convertedCurrencyValue = 0.0;
+  late Future<SymbolsResponse> futureSymbols;
+  late Future<CurrencyConversionResponse> futureCurrencyConversion;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSymbols = fetchSymbols();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    futureCurrencyConversion = fetchCurrencyConversion("USD", "MXN", 10);
+  }
 
   void _convert() {
     setState(() {
@@ -65,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    const double WIDTH = 300;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
@@ -77,9 +88,31 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CurrencyWidget(currencyWidgetType: CurrencyWidgetType.edit),
+              Card(
+                  elevation: 8,
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(150),
+                  ),
+                  child: Container(
+                      width: 50,
+                      height: 50,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.swap_vert_sharp,
+                          size: 33,
+                        ),
+                        onPressed: () {
+                          print("Pressed switch currencies button");
+                        },
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white))),
               CurrencyWidget(currencyWidgetType: CurrencyWidgetType.display),
             ]),
       )),
     );
   }
 }
+

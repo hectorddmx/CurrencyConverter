@@ -1,9 +1,8 @@
+import 'package:currency_converter/business_logic/models/symbols_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:currency_converter/models/convert_response.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<ConvertResponse> fetchConversion(
-    String fromCurrencyCode, String toCurrencyCode, double amount) async {
+Future<SymbolsResponse> fetchSymbols() async {
   String? apiKey = dotenv.maybeGet('EXCHANGERATESAPI_KEY', fallback: "da");
   print("apiKey: $apiKey");
   if (apiKey == null) {
@@ -11,13 +10,12 @@ Future<ConvertResponse> fetchConversion(
   }
 
   final response = await http.get(Uri.parse(
-      'https://api.exchangeratesapi.io/v1/convert?access_key=$apiKey&'
-          'from=$fromCurrencyCode&to=$toCurrencyCode&amount=$amount'));
+      'https://api.exchangeratesapi.io/v1/symbols?access_key=$apiKey'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return convertResponseFromJson(response.body);
+    return symbolsResponseFromJson(response.body);
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
