@@ -71,3 +71,4 @@ doc/api/
 
 # Ignore https://obsidian.md/ config folder
 .obsidian
+.env
