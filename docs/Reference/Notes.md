@@ -15,6 +15,9 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,  
 samples, guidance on mobile development, and a full API reference.
 
+## Android studio plugins for flutter
+- https://plugins.jetbrains.com/plugin/12693-flutter-enhancement-suite/versions
+
 ## Good intro for iOS devs
 https://flutter.dev/docs/get-started/flutter-for/ios-devs
 
