@@ -121,6 +121,14 @@ class _SourceCurrencyWidgetState extends State<SourceCurrencyWidget> {
       thousandSeparator: ",");
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
