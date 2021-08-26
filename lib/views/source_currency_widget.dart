@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 
-class TargetCurrencyWidget extends StatefulWidget {
-  const TargetCurrencyWidget({
+class SourceCurrencyWidget extends StatefulWidget {
+  const SourceCurrencyWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  _TargetCurrencyWidgetState createState() => _TargetCurrencyWidgetState();
+  _SourceCurrencyWidgetState createState() => _SourceCurrencyWidgetState();
 }
 
-class _TargetCurrencyWidgetState extends State<TargetCurrencyWidget> {
+class _SourceCurrencyWidgetState extends State<SourceCurrencyWidget> {
+  double currencyValue = 0.0;
   String currencyNameValue = 'Peso';
   String codeValue = 'Peso';
-  double currencyValue = 0.0;
+  var controller = new MoneyMaskedTextController(
+      initialValue: 0.0,
+      leftSymbol: "\$",
+      precision: 2,
+      decimalSeparator: ".",
+      thousandSeparator: ",");
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +37,6 @@ class _TargetCurrencyWidgetState extends State<TargetCurrencyWidget> {
           child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(children: [
-          Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text("\$62.67", style: TextStyle(color: Colors.purple)),
-                  Spacer(),
-                ],
-              )),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -60,6 +67,17 @@ class _TargetCurrencyWidgetState extends State<TargetCurrencyWidget> {
               ],
             ),
           ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: controller,
+                decoration: InputDecoration(border: InputBorder.none),
+                style: TextStyle(color: Colors.purple, fontSize: 40),
+                onChanged: (text) {
+                  print('First text field: $text');
+                },
+              )),
         ]),
       )),
     );

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import "package:flutter_masked_text/flutter_masked_text.dart"
-    show MoneyMaskedTextController;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:currency_converter/views/source_currency_widget.dart';
+import 'package:currency_converter/views/target_currency_widget.dart';
+import 'package:money2/money2.dart';
 
 Future main() async {
-  await dotenv.load(fileName: ".env");
+  await fetchSecrets();
   runApp(MyApp());
+}
+
+Future<void> fetchSecrets() async {
+  await dotenv.load(fileName: ".env");
+  // String? apiKey = dotenv.maybeGet('EXCHANGERATESAPI_KEY', fallback: "da");
+  // print("apiKey: $apiKey");
 }
 
 class MyApp extends StatelessWidget {
@@ -51,16 +58,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _currencyValue = 0.0;
+  double _convertedCurrencyValue = 0.0;
 
-  void _incrementCounter() {
+  void _convert() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      _convertedCurrencyValue = _currencyValue * 20;
     });
   }
 
@@ -77,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        backgroundColor: Colors.tealAccent,
+        elevation: 0,
       ),
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
@@ -105,145 +115,4 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class SourceCurrencyWidget extends StatefulWidget {
-  const SourceCurrencyWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _SourceCurrencyWidgetState createState() => _SourceCurrencyWidgetState();
-}
-
-class _SourceCurrencyWidgetState extends State<SourceCurrencyWidget> {
-  double currencyValue = 0.0;
-  String currencyNameValue = 'Peso';
-  String codeValue = 'Peso';
-  var controller = new MoneyMaskedTextController(
-      initialValue: 0.0,
-      leftSymbol: "\$",
-      decimalSeparator: ".",
-      thousandSeparator: ",");
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18.0),
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Row(children: [
-                  Text("\$ $codeValue"),
-                  Spacer(),
-                  DropdownButton<String>(
-                    value: currencyNameValue,
-                    icon: const Icon(Icons.arrow_drop_down_outlined),
-                    iconSize: 24,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        currencyNameValue = newValue!;
-                        codeValue = currencyNameValue;
-                      });
-                    },
-                    items: <String>['Euro', 'Peso', 'Dollar']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )
-                ]),
-              ],
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: controller,
-                decoration: InputDecoration(border: InputBorder.none),
-                style: TextStyle(color: Colors.purple),
-              )),
-        ]),
-      )),
-    );
-  }
-}
-
-class TargetCurrencyWidget extends StatefulWidget {
-  const TargetCurrencyWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _TargetCurrencyWidgetState createState() => _TargetCurrencyWidgetState();
-}
-
-class _TargetCurrencyWidgetState extends State<TargetCurrencyWidget> {
-  String currencyNameValue = 'Peso';
-  String codeValue = 'Peso';
-  double currencyValue = 0.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18.0),
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(children: [
-          Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text("\$62.67", style: TextStyle(color: Colors.purple)),
-                  Spacer(),
-                ],
-              )),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Row(children: [
-                  Text("\$ $codeValue"),
-                  Spacer(),
-                  DropdownButton<String>(
-                    value: currencyNameValue,
-                    icon: const Icon(Icons.arrow_drop_down_outlined),
-                    iconSize: 24,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        currencyNameValue = newValue!;
-                        codeValue = currencyNameValue;
-                      });
-                    },
-                    items: <String>['Euro', 'Peso', 'Dollar']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )
-                ]),
-              ],
-            ),
-          ),
-        ]),
-      )),
-    );
-  }
-}
+enum CurrencyWidgetType { source, target }

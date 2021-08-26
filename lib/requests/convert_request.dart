@@ -9,8 +9,8 @@ Future<ConvertResponse> fetchAlbum() async {
     throw Exception('Failed to get API KEY');
   }
 
-  final response = await http
-      .get(Uri.parse('https://api.exchangeratesapi.io/v1/convert?access_key=$apiKey&from=USD&to=MXN&amount=1'));
+  final response = await http.get(Uri.parse(
+      'https://api.exchangeratesapi.io/v1/convert?access_key=$apiKey&from=USD&to=MXN&amount=1'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
