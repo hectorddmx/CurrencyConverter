@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.dediego.CurrencyConverter.currency_converter">
 
+    <!-- Required to fetch data from the internet. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="currency_converter">
@@ -36,7 +38,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Required to fetch data from the internet. -->
-        <uses-permission android:name="android.permission.INTERNET" />
     </application>
 </manifest>
